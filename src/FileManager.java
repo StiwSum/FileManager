@@ -5,13 +5,16 @@
  */
 
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -22,8 +25,10 @@ import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -47,7 +52,17 @@ public class FileManager extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPopupMenu1 = new javax.swing.JPopupMenu();
+        listPopup = new javax.swing.JPopupMenu();
+        openMenuItem = new javax.swing.JMenuItem();
+        copyMenuItem = new javax.swing.JMenuItem();
+        pasteMenuItem = new javax.swing.JMenuItem();
+        renameMenuItem = new javax.swing.JMenuItem();
+        deleteMenuItem = new javax.swing.JMenuItem();
+        createFileMenuItem = new javax.swing.JMenuItem();
+        createFolderMenuItem = new javax.swing.JMenuItem();
+        PFDialog = new javax.swing.JDialog();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        PFTextArea = new javax.swing.JTextArea();
         workPanel = new javax.swing.JPanel();
         pathField = new javax.swing.JTextField();
         pathLabel = new javax.swing.JLabel();
@@ -61,6 +76,7 @@ public class FileManager extends javax.swing.JFrame {
         filesList = new javax.swing.JList<>();
         filesLabel = new javax.swing.JLabel();
         backButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         MenuBar = new javax.swing.JMenuBar();
         aboutMenu = new javax.swing.JMenu();
         aboutItem = new javax.swing.JMenuItem();
@@ -69,6 +85,93 @@ public class FileManager extends javax.swing.JFrame {
         calculatorItem = new javax.swing.JMenuItem();
         terminalItem = new javax.swing.JMenuItem();
         exitItem = new javax.swing.JMenuItem();
+
+        openMenuItem.setText("jMenuItem1");
+        openMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openMenuItemActionPerformed(evt);
+            }
+        });
+        listPopup.add(openMenuItem);
+
+        copyMenuItem.setText("jMenuItem1");
+        copyMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                copyMenuItemActionPerformed(evt);
+            }
+        });
+        listPopup.add(copyMenuItem);
+
+        pasteMenuItem.setText("jMenuItem1");
+        pasteMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pasteMenuItemActionPerformed(evt);
+            }
+        });
+        listPopup.add(pasteMenuItem);
+
+        renameMenuItem.setText("jMenuItem1");
+        renameMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                renameMenuItemActionPerformed(evt);
+            }
+        });
+        listPopup.add(renameMenuItem);
+
+        deleteMenuItem.setText("jMenuItem1");
+        deleteMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteMenuItemActionPerformed(evt);
+            }
+        });
+        listPopup.add(deleteMenuItem);
+
+        createFileMenuItem.setText("jMenuItem1");
+        createFileMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createFileMenuItemActionPerformed(evt);
+            }
+        });
+        listPopup.add(createFileMenuItem);
+
+        createFolderMenuItem.setText("jMenuItem1");
+        createFolderMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createFolderMenuItemActionPerformed(evt);
+            }
+        });
+        listPopup.add(createFolderMenuItem);
+
+        PFDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        PFDialog.setTitle("Количество страничных ошибок");
+        PFDialog.setLocation(new java.awt.Point(750, 500));
+        PFDialog.setSize(new java.awt.Dimension(400, 300));
+        PFDialog.setType(java.awt.Window.Type.UTILITY);
+
+        PFTextArea.setColumns(20);
+        PFTextArea.setRows(5);
+        jScrollPane1.setViewportView(PFTextArea);
+
+        javax.swing.GroupLayout PFDialogLayout = new javax.swing.GroupLayout(PFDialog.getContentPane());
+        PFDialog.getContentPane().setLayout(PFDialogLayout);
+        PFDialogLayout.setHorizontalGroup(
+            PFDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(PFDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PFDialogLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        PFDialogLayout.setVerticalGroup(
+            PFDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(PFDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PFDialogLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("File-Manager-2.0");
@@ -108,6 +211,7 @@ public class FileManager extends javax.swing.JFrame {
         protokolLabel.setText("Файл фоктов созданий:");
 
         protokolField.setText("protokol.txt");
+        protokolField.setEnabled(false);
 
         openProtokolButton.setText("Открыть");
 
@@ -123,6 +227,7 @@ public class FileManager extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        filesList.setComponentPopupMenu(listPopup);
         filesList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 filesListMouseClicked(evt);
@@ -136,6 +241,13 @@ public class FileManager extends javax.swing.JFrame {
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backButtonActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Количество страничных ошибок");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -171,7 +283,11 @@ public class FileManager extends javax.swing.JFrame {
                                 .addComponent(filesLabel)
                                 .addGap(18, 18, 18)
                                 .addComponent(backButton)))))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(113, 113, 113))
         );
         workPanelLayout.setVerticalGroup(
             workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,7 +312,9 @@ public class FileManager extends javax.swing.JFrame {
                     .addComponent(backButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(filesScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         aboutMenu.setText("О программе");
@@ -255,15 +373,15 @@ public class FileManager extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(workPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
-                .addGap(26, 26, 26))
+                .addComponent(workPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                .addGap(14, 14, 14))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(workPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addComponent(workPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleName("frame");
@@ -272,11 +390,34 @@ public class FileManager extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void aboutItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutItemActionPerformed
-        JOptionPane.showMessageDialog(workPanel, "Файловый Менеджер - приложения для работы с файлами");
+        JDialog dialog = new JDialog(this);
+        dialog.setTitle("О программе");
+        JTextArea area = new JTextArea("Файловый менеджер (англ. file manager) — компьютерная программа,\n"
+                + " предоставляющая интерфейс пользователя для работы\n с файловой системой и файлами.");
+        dialog.add(area);
+        dialog.setLocation(720, 240);
+        dialog.setSize(new Dimension(512, 200));
+        area.enable(false);
+        dialog.setVisible(true);
     }//GEN-LAST:event_aboutItemActionPerformed
 
     private void helpItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpItemActionPerformed
-        JOptionPane.showMessageDialog(workPanel, "");
+        JDialog dialog = new JDialog(this);
+        dialog.setTitle("О программе");
+        JTextArea area = new JTextArea("Переход по файла осуществляется по двойному щелчку на списке\n"
+                + " файлов или же абсолютного пути файла.\n\n\n\nКнопка<Открыть> открывает указонный файл.\n\n\n\n"
+                + "По щелчку правой кнопки мыши на файлах открывается контекстное меню: \n\n\n\n"
+                + "<Открыть> открывает указонный файл\n\n\n\n"
+                + "<Копировать> копирует указонный файл\n\n\n\n"
+                + "<Переименовать> переименуюет указонный файл\n\n\n\n"
+                + "<Вставляет> вставляет скопориванный файл\n\n\n\n"
+                + "<Удалить> удаляет указонный файл\n\n\n\n"
+                + "<Сздать файл/каталог> создаёт файл в указонной или текущей директории\n\n\n\n");
+        dialog.add(area);
+        dialog.setLocation(720, 240);
+        dialog.setSize(new Dimension(512, 700));
+        area.enable(false);
+        dialog.setVisible(true);
     }//GEN-LAST:event_helpItemActionPerformed
 
     private void calculatorItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculatorItemActionPerformed
@@ -310,13 +451,10 @@ public class FileManager extends javax.swing.JFrame {
     }//GEN-LAST:event_exitItemActionPerformed
 
     private void pathFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pathFieldActionPerformed
-        if (pathField.getText().equals("Default")) {
-            currentFile = new File("/home/user/NetBeansProjects/File-Manager-2.0/Default");
-        } else {
-            currentFile = new File(pathField.getText());
-        }
 
-        if (currentFile.exists()) {
+        currentFile = new File(pathField.getText());
+
+        if (!currentFile.equals(null)) {
             if (currentFile.isDirectory()) {
                 files = currentFile.list();
                 filesList.setListData(files);
@@ -336,7 +474,8 @@ public class FileManager extends javax.swing.JFrame {
                 workPanel.repaint();
             }
         } else {
-            showErrorMessage("Такого файла или каталога не существует.", "Message");
+            showErrorMessage("Такого файла или каталога не существует.", "Error");
+            pathField.setText("/home/user/NetBeansProjects/File-Manager-2.0/Default");
         }
     }//GEN-LAST:event_pathFieldActionPerformed
 
@@ -345,9 +484,6 @@ public class FileManager extends javax.swing.JFrame {
         File newFile = new File(infoFile.getParent() + "/info/" + infoField.getText());
         try {
             boolean created = newFile.createNewFile();
-            if (created) {
-                System.out.println("File has been created");
-            }
         } catch (IOException ex) {
 
         }
@@ -380,22 +516,131 @@ public class FileManager extends javax.swing.JFrame {
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void filesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_filesListMouseClicked
-        if (!(currentFile.getPath() + "/" + filesList.getSelectedValue()).equals(null) && currentFile.list().length != 0 ) {
-            pathField.setText(currentFile.getPath() + "/" + filesList.getSelectedValue());
-            ActionEvent ae = new ActionEvent(evt, WIDTH, "");
-            pathFieldActionPerformed(ae);
+        if ((evt.getClickCount() == 2)) {
+            if (!(currentFile.getPath() + "/" + filesList.getSelectedValue()).equals(null) || currentFile.list().length != 0) {
+                pathField.setText(currentFile.getPath() + "/" + filesList.getSelectedValue());
+                ActionEvent ae = new ActionEvent(evt, WIDTH, "");
+                pathFieldActionPerformed(ae);
+            }
         }
     }//GEN-LAST:event_filesListMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
+    private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
+        pathField.setText(currentFile.getPath() + "/" + filesList.getSelectedValue());
+        ActionEvent ae = new ActionEvent(evt, WIDTH, "");
+        pathFieldActionPerformed(ae);
+    }//GEN-LAST:event_openMenuItemActionPerformed
+
+    private void copyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyMenuItemActionPerformed
+        copyFilePath = currentFile.getPath() + "/" + filesList.getSelectedValue();
+        copyFile = new File(currentFile.getPath() + "/" + filesList.getSelectedValue());
+    }//GEN-LAST:event_copyMenuItemActionPerformed
+
+    private void pasteMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pasteMenuItemActionPerformed
+        try {
+            if (!filesList.getValueIsAdjusting()) {
+                File newFile = new File(pathField.getText() + "/" + copyFile.getName());
+                try {
+                    Files.copy(copyFile.toPath(), newFile.toPath());
+                } catch (IOException ex) {
+                    Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                try {
+                    newFile.createNewFile();
+                } catch (IOException ex) {
+                    Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                File newFile = new File(pathField.getText() + "/" + filesList.getSelectedValue() + "/" + copyFile.getName());
+                try {
+                    Files.copy(copyFile.toPath(), newFile.toPath());
+                } catch (IOException ex) {
+                    Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                try {
+                    newFile.createNewFile();
+                } catch (IOException ex) {
+                    Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            ActionEvent ae = new ActionEvent(evt, WIDTH, "");
+            pathFieldActionPerformed(ae);
+        } catch (Exception e) {
+            showErrorMessage("Выберете файл для копирования", "Message");
+        }
+    }//GEN-LAST:event_pasteMenuItemActionPerformed
+
+    private void renameMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_renameMenuItemActionPerformed
+        if (filesList.getSelectedValue() != null) {
+            System.out.println(filesList.getSelectedValue());
+            String newName = JOptionPane.showInputDialog(workPanel, "Введите новое имя");
+            if (newName == null) {
+                return;
+            }
+            if (newName.equals("")) {
+                showErrorMessage("Вы не ввели имя", "Error");
+            } else {
+                new File(pathField.getText() + "/" + filesList.getSelectedValue()).renameTo(new File(pathField.getText() + "/" + newName));
+                ActionEvent ae = new ActionEvent(evt, WIDTH, "");
+                pathFieldActionPerformed(ae);
+            }
+        } else {
+            showErrorMessage("Выберете файл, который хотите переименовать.", "Error");
+        }
+    }//GEN-LAST:event_renameMenuItemActionPerformed
+
+    private void deleteMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMenuItemActionPerformed
+        if (!filesList.getValueIsAdjusting()) {
+            File deletedFile = new File(pathField.getText() + "/" + filesList.getSelectedValue());
+            deleteFolder(deletedFile);
+            ActionEvent ae = new ActionEvent(evt, WIDTH, "");
+            pathFieldActionPerformed(ae);
+        } else {
+            showErrorMessage("Выберете файл, который хотите переименовать.", "Error");
+        }    }//GEN-LAST:event_deleteMenuItemActionPerformed
+
+    private void createFileMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createFileMenuItemActionPerformed
+        String newName = JOptionPane.showInputDialog(workPanel, "Введите новое имя");
+        if (newName.equals("")) {
+            showErrorMessage("Вы не ввели имя", "Error");
+        } else {
+            File newFile = new File(pathField.getText() + "/" + newName);
+            try {
+                newFile.createNewFile();
+                printToProtFile(newFile);
+            } catch (IOException ex) {
+                Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            ActionEvent ae = new ActionEvent(evt, WIDTH, "");
+            pathFieldActionPerformed(ae);
+        }
+    }//GEN-LAST:event_createFileMenuItemActionPerformed
+
+    private void createFolderMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createFolderMenuItemActionPerformed
+        String newName = JOptionPane.showInputDialog(workPanel, "Введите новое имя");
+        if (newName.equals(null)) {
+            return;
+        }
+        if (newName.equals("")) {
+            showErrorMessage("Вы не ввели имя", "Error");
+        } else {
+            try {
+                File newDir = new File(pathField.getText() + "/" + newName);
+
+                newDir.mkdir();
+                printToProtFile(newDir);
+            } catch (IOException ex) {
+                Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            ActionEvent ae = new ActionEvent(evt, WIDTH, "");
+            pathFieldActionPerformed(ae);
+        }    }//GEN-LAST:event_createFolderMenuItemActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        PFDialog.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -404,13 +649,20 @@ public class FileManager extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FileManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FileManager.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FileManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FileManager.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FileManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FileManager.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FileManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FileManager.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -420,14 +672,22 @@ public class FileManager extends javax.swing.JFrame {
                 new FileManager().setVisible(true);
             }
         });
+        MyThread myThread = new MyThread();
+        myThread.start();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar MenuBar;
+    private javax.swing.JDialog PFDialog;
+    public static javax.swing.JTextArea PFTextArea;
     private javax.swing.JMenuItem aboutItem;
     private javax.swing.JMenu aboutMenu;
     private javax.swing.JButton backButton;
     private javax.swing.JMenuItem calculatorItem;
+    private javax.swing.JMenuItem copyMenuItem;
+    private javax.swing.JMenuItem createFileMenuItem;
+    private javax.swing.JMenuItem createFolderMenuItem;
+    private javax.swing.JMenuItem deleteMenuItem;
     private javax.swing.JMenuItem exitItem;
     private javax.swing.JLabel filesLabel;
     private javax.swing.JList<String> filesList;
@@ -435,23 +695,31 @@ public class FileManager extends javax.swing.JFrame {
     private javax.swing.JMenuItem helpItem;
     private javax.swing.JTextField infoField;
     private javax.swing.JLabel infoFileLabel;
-    private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPopupMenu listPopup;
     private javax.swing.JButton openInfoButton;
+    private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JButton openProtokolButton;
     private javax.swing.JMenu optionMenu;
+    private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JTextField pathField;
     private javax.swing.JLabel pathLabel;
     private javax.swing.JTextField protokolField;
     private javax.swing.JLabel protokolLabel;
+    private javax.swing.JMenuItem renameMenuItem;
     private javax.swing.JMenuItem terminalItem;
     private javax.swing.JPanel workPanel;
     // End of variables declaration//GEN-END:variables
     private File currentFile;
     private String[] files;
     private Desktop desktop = Desktop.getDesktop();
-    private File infoFile = new File("/home/user/NetBeansProjects/File-Manager-2.0/sourcefiles/newfile.txt");
+    private File infoFile = new File("C:\\Users\\еркыпе\\Documents\\NetBeansProjects\\FileManager\\sourcefiles\\newfile.txt");
+    private File protokolFile = new File("");
     private FileWriter fileWriter;
     private BufferedWriter bufferedWriter;
+    private String copyFilePath;
+    private File copyFile;
 
     private void showErrorMessage(String errorMessage, String errorTitle) {
         JOptionPane.showMessageDialog(
@@ -467,7 +735,7 @@ public class FileManager extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(
                 workPanel,
                 t.toString() + "\nНе указано приложение по умолчанию для файла.",
-                t.getMessage(),
+                "Error",
                 JOptionPane.ERROR_MESSAGE
         );
         workPanel.repaint();
@@ -482,7 +750,61 @@ public class FileManager extends javax.swing.JFrame {
         bufferedWriter.close();
     }
 
-    public void copy(String sourcePath, String destinationPath) throws IOException {
+    private void printToProtFile(File file) throws IOException {
+        fileWriter = new FileWriter(infoFile, true);
+        bufferedWriter = new BufferedWriter(fileWriter);
+        bufferedWriter.append("Имя файла: " + file.getName() + " Время создания: " + LocalDateTime.now() + " Местонахождения: " + file.getPath());
+        bufferedWriter.newLine();
+        bufferedWriter.flush();
+        bufferedWriter.close();
+    }
+
+    private void copy(String sourcePath, String destinationPath) throws IOException {
         Files.copy(Paths.get(sourcePath), new FileOutputStream(destinationPath));
+    }
+
+    private static void deleteFolder(File folder) {
+        File[] files = folder.listFiles();
+        if (files != null) {
+            for (File f : files) {
+                if (f.isDirectory()) {
+                    deleteFolder(f);
+                } else {
+                    f.delete();
+                }
+            }
+        }
+        folder.delete();
+    }
+
+}
+
+class MyThread extends Thread {
+
+    @Override
+    public void run() {
+        try {
+            while (true) {
+                String output = "";
+                try {
+                    String line;
+                    Process p = Runtime.getRuntime().exec(" ps -o min_flt,maj_flt 1");
+                    BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                    while ((line = input.readLine()) != null) {
+                        output += line;
+                    }
+                    input.close();
+
+                    String[] string = output.replaceAll("[\\s]{2,}", " ").split(" ");
+                    FileManager.PFTextArea.setText(string[1] + " " + string[3] + "\n" + string[2] + " " + string[4]);
+
+                } catch (Exception err) {
+                    err.printStackTrace();
+                }
+                sleep(5);
+            }
+        } catch (Exception err) {
+            err.printStackTrace();
+        }
     }
 }
