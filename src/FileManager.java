@@ -86,7 +86,7 @@ public class FileManager extends javax.swing.JFrame {
         terminalItem = new javax.swing.JMenuItem();
         exitItem = new javax.swing.JMenuItem();
 
-        openMenuItem.setText("jMenuItem1");
+        openMenuItem.setText("Открыть");
         openMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 openMenuItemActionPerformed(evt);
@@ -94,7 +94,8 @@ public class FileManager extends javax.swing.JFrame {
         });
         listPopup.add(openMenuItem);
 
-        copyMenuItem.setText("jMenuItem1");
+        copyMenuItem.setText("Копировать");
+        copyMenuItem.setToolTipText("");
         copyMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 copyMenuItemActionPerformed(evt);
@@ -102,7 +103,7 @@ public class FileManager extends javax.swing.JFrame {
         });
         listPopup.add(copyMenuItem);
 
-        pasteMenuItem.setText("jMenuItem1");
+        pasteMenuItem.setText("Втавить");
         pasteMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pasteMenuItemActionPerformed(evt);
@@ -110,7 +111,7 @@ public class FileManager extends javax.swing.JFrame {
         });
         listPopup.add(pasteMenuItem);
 
-        renameMenuItem.setText("jMenuItem1");
+        renameMenuItem.setText("Переименовать");
         renameMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 renameMenuItemActionPerformed(evt);
@@ -118,7 +119,7 @@ public class FileManager extends javax.swing.JFrame {
         });
         listPopup.add(renameMenuItem);
 
-        deleteMenuItem.setText("jMenuItem1");
+        deleteMenuItem.setText("Удалить");
         deleteMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteMenuItemActionPerformed(evt);
@@ -126,7 +127,7 @@ public class FileManager extends javax.swing.JFrame {
         });
         listPopup.add(deleteMenuItem);
 
-        createFileMenuItem.setText("jMenuItem1");
+        createFileMenuItem.setText("Создать файл");
         createFileMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createFileMenuItemActionPerformed(evt);
@@ -134,7 +135,7 @@ public class FileManager extends javax.swing.JFrame {
         });
         listPopup.add(createFileMenuItem);
 
-        createFolderMenuItem.setText("jMenuItem1");
+        createFolderMenuItem.setText("Создать папку");
         createFolderMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createFolderMenuItemActionPerformed(evt);
@@ -186,7 +187,7 @@ public class FileManager extends javax.swing.JFrame {
         workPanel.setDoubleBuffered(false);
         workPanel.setPreferredSize(new java.awt.Dimension(480, 660));
 
-        pathField.setText("Default");
+        pathField.setText("root");
         pathField.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -373,14 +374,14 @@ public class FileManager extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(workPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                .addComponent(workPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 450, Short.MAX_VALUE)
                 .addGap(14, 14, 14))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(workPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
+                .addComponent(workPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -431,8 +432,8 @@ public class FileManager extends javax.swing.JFrame {
 
     private void terminalItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_terminalItemActionPerformed
         try {
-            Runtime.getRuntime().exec("gnome-terminal");
-            printToInfoFile("gnome-terminal");
+            Runtime.getRuntime().exec("mate-terminal");
+            printToInfoFile("mate-terminal");
         } catch (IOException ex) {
             Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -451,8 +452,11 @@ public class FileManager extends javax.swing.JFrame {
     }//GEN-LAST:event_exitItemActionPerformed
 
     private void pathFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pathFieldActionPerformed
-
-        currentFile = new File(pathField.getText());
+        if (pathField.getText().equals("/root")) {
+            currentFile = new File("/home/user/NetBeansProjects/FileManager/root");
+        } else {
+            currentFile = new File(pathField.getText());
+        }
 
         if (!currentFile.equals(null)) {
             if (currentFile.isDirectory()) {
@@ -475,7 +479,7 @@ public class FileManager extends javax.swing.JFrame {
             }
         } else {
             showErrorMessage("Такого файла или каталога не существует.", "Error");
-            pathField.setText("/home/user/NetBeansProjects/File-Manager-2.0/Default");
+            pathField.setText("/home/user/NetBeansProjects/FileManager/root");
         }
     }//GEN-LAST:event_pathFieldActionPerformed
 
@@ -509,7 +513,7 @@ public class FileManager extends javax.swing.JFrame {
     }//GEN-LAST:event_pathFieldAncestorAdded
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        if (!currentFile.getPath().equals("/")) {
+        if (!currentFile.getPath().equals("root")) {
             pathField.setText(currentFile.getParentFile().getPath());
             pathFieldActionPerformed(evt);
         }
@@ -596,7 +600,7 @@ public class FileManager extends javax.swing.JFrame {
             ActionEvent ae = new ActionEvent(evt, WIDTH, "");
             pathFieldActionPerformed(ae);
         } else {
-            showErrorMessage("Выберете файл, который хотите переименовать.", "Error");
+            showErrorMessage("Выберете файл, который хотите удалить.", "Error");
         }    }//GEN-LAST:event_deleteMenuItemActionPerformed
 
     private void createFileMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createFileMenuItemActionPerformed
@@ -714,7 +718,7 @@ public class FileManager extends javax.swing.JFrame {
     private File currentFile;
     private String[] files;
     private Desktop desktop = Desktop.getDesktop();
-    private File infoFile = new File("C:\\Users\\еркыпе\\Documents\\NetBeansProjects\\FileManager\\sourcefiles\\newfile.txt");
+    private File infoFile = new File("/home/user/NetBeansProjects/FileManager/sourcefiles/newfile.txt");
     private File protokolFile = new File("");
     private FileWriter fileWriter;
     private BufferedWriter bufferedWriter;
