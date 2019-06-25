@@ -295,7 +295,7 @@
               </Group>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  <Component id="jButton1" min="-2" pref="205" max="-2" attributes="0"/>
+                  <Component id="PFButton" min="-2" pref="205" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -328,7 +328,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="filesScrollPane" min="-2" pref="355" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                  <Component id="PFButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="44" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -374,6 +374,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="&#x41e;&#x442;&#x43a;&#x440;&#x44b;&#x442;&#x44c;"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="openProtokolButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="openInfoButton">
           <Properties>
@@ -422,12 +425,12 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="PFButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="&#x41a;&#x43e;&#x43b;&#x438;&#x447;&#x435;&#x441;&#x442;&#x432;&#x43e; &#x441;&#x442;&#x440;&#x430;&#x43d;&#x438;&#x447;&#x43d;&#x44b;&#x445; &#x43e;&#x448;&#x438;&#x431;&#x43e;&#x43a;"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PFButtonActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
